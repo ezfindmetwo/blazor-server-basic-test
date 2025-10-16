@@ -1,0 +1,43 @@
+name: Blazor Server Build & Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore BlazorServerApp/BlazorServerApp.csproj
+
+      - name: Build Blazor Server
+        run: dotnet build BlazorServerApp/BlazorServerApp.csproj --configuration Release
+
+      - name: Run Blazor Server (background)
+        run: |
+          dotnet run --project BlazorServerApp/BlazorServerApp.csproj --urls=http://localhost:5000 &
+          sleep 10
+
+      - name: Test homepage
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:5000/)
+          echo "HTTP status code: $response"
+          if [ "$response" -ne 200 ]; then
+            echo "Homepage test failed!"
+            exit 1
+          fi
+
+      - name: Stop Blazor Server
+        run: |
+          pkill -f 'dotnet run --project BlazorServerApp/BlazorServerApp.csproj'
