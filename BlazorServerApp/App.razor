@@ -1,7 +1,7 @@
 <Router AppAssembly="@typeof(App).Assembly">
-    <Found Context="foundRouteData">
-        <RouteView RouteData="foundRouteData" DefaultLayout="@typeof(MainLayout)" />
-        <FocusOnNavigate RouteData="foundRouteData" Selector="h1" />
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
     </Found>
     <NotFound>
         <LayoutView Layout="@typeof(MainLayout)">
@@ -9,4 +9,3 @@
         </LayoutView>
     </NotFound>
 </Router>
-
