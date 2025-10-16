@@ -38,7 +38,7 @@ jobs:
 
       - name: Test homepage
         run: |
-          response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:5000/)
+          response=$(curl -s -o /dev/null -w "%{http_code}" http://0.0.0.0:5000/)
           echo "HTTP status code: $response"
           if [ "$response" -ne 200 ]; then
             echo "Homepage test failed!"
