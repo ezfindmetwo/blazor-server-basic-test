@@ -19,14 +19,14 @@ jobs:
           dotnet-version: 8.0.x
 
       - name: Restore dependencies
-        run: dotnet restore BlazorServerApp/BlazorServerApp.csproj
+        run: dotnet restore BlazorApp11/BlazorApp11.csproj
 
       - name: Build Blazor Server
-        run: dotnet build BlazorServerApp/BlazorServerApp.csproj --configuration Release
+        run: dotnet build BlazorApp11/BlazorApp11.csproj --configuration Release
 
       - name: Run Blazor Server in background
         run: |
-          dotnet run --project BlazorServerApp/BlazorServerApp.csproj --urls=http://0.0.0.0:5000 &
+          dotnet run --project BlazorApp11/BlazorApp11.csproj --urls=http://0.0.0.0:5000 &
           echo "Waiting for Blazor Server to start..."
           for i in {1..10}; do
             if curl -s http://localhost:5000/ >/dev/null; then
