@@ -24,10 +24,17 @@ jobs:
       - name: Build Blazor Server
         run: dotnet build BlazorServerApp/BlazorServerApp.csproj --configuration Release
 
-      - name: Run Blazor Server (background)
+      - name: Run Blazor Server in background
         run: |
-          dotnet run --project BlazorServerApp/BlazorServerApp.csproj --urls=http://localhost:5000 &
-          sleep 10
+          dotnet run --project BlazorServerApp/BlazorServerApp.csproj --urls=http://0.0.0.0:5000 &
+          echo "Waiting for Blazor Server to start..."
+          for i in {1..10}; do
+            if curl -s http://localhost:5000/ >/dev/null; then
+              echo "Blazor Server is up!"
+              break
+            fi
+            sleep 3
+          done
 
       - name: Test homepage
         run: |
