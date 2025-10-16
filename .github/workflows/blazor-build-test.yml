@@ -47,4 +47,4 @@ jobs:
 
       - name: Stop Blazor Server
         run: |
-          pkill -f 'dotnet run --project BlazorServerApp/BlazorServerApp.csproj'
+          pkill -f 'dotnet run --project BlazorApp11/BlazorApp11.csproj'
